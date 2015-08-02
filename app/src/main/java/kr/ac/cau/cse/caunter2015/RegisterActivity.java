@@ -42,22 +42,24 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
             this.price = price;
         }
 
-        protected void setInitialStock (int initialStock) {
+        protected boolean setInitialStock (int initialStock) {
             if (initialStock < this.currentStock) {
                 Toast.makeText(getApplicationContext(), "ERROR : 최초 재고량이 현재 재고량보다 적습니다", Toast.LENGTH_SHORT).show();
-                return;
+                return false;
             }
             this.initialStock = initialStock;
             this.salesVolumn = this.initialStock - this.currentStock;
+            return true;
         }
 
-        protected void setCurrentStock (int currentStock) {
+        protected boolean setCurrentStock (int currentStock) {
             if (currentStock > this.initialStock) {
                 Toast.makeText(getApplicationContext(), "ERROR : 현재 재고량이 최초 재고량보다 많습니다", Toast.LENGTH_SHORT).show();
-                return;
+                return false;
             }
             this.currentStock = currentStock;
             this.salesVolumn = this.initialStock - this.currentStock;
+            return true;
         }
 
         protected String getName () { return this.name; }
