@@ -81,7 +81,7 @@ public class DBManager {
                     "price      INTEGER not null, " +
                     "startStock INTEGER not null, " +
                     "stock      INTEGER not null, " +
-                    "FOREIGN KEY(eventId) REFERENCES Event(id));";
+                    "FOREIGN KEY(categoryId) REFERENCES Category(id));";
             db.execSQL(sql);
         } catch (Exception e){
             Log.e("database", "create Product table failed. :" + e);
