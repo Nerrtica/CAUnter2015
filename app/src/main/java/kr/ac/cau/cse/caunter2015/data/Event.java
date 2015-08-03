@@ -12,4 +12,31 @@ public class Event {
     private ArrayList<Category> categoryList;
     private ArrayList<SalesHistory> salesHistoryList;
 
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public GregorianCalendar getStartDate() {
+        return startDate;
+    }
+
+    public GregorianCalendar getEndDate() {
+        return endDate;
+    }
+
+    public ArrayList<Product> getProductList() {
+        return productList;
+    }
+
+    public ArrayList<Category> getCategoryList() {
+        return categoryList;
+    }
+
+    public ArrayList<SalesHistory> getSalesHistoryList() {
+        return salesHistoryList;
+    }
 }
