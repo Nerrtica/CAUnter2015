@@ -8,10 +8,14 @@ import android.view.MenuItem;
 
 public class MainActivity extends Activity {
 
+    private DBManager dbManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        dbManager = new DBManager(this);
     }
 
 
