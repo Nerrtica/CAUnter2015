@@ -1,4 +1,4 @@
-package kr.ac.cau.cse.caunter2015;
+package kr.ac.cau.cse.caunter2015.database;
 
 
 import android.content.Context;
@@ -10,6 +10,13 @@ import android.util.Log;
 public class DBManager {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "CaunterDB";
+
+    public static final String EVENT_TABLE_NAME = "Event";
+    public static final String CATEGORY_TABLE_NAME = "Category";
+    public static final String PRODUCT_TABLE_NAME = "Product";
+    public static final String SALES_HISTORY_TABLE_NAME = "SalesHistory";
+    public static final String PRODUCT_SALES_TABLE_NAME = "ProductSales";
+
 
     private SQLiteDatabase db;
     private OpenHelper helper;
@@ -48,7 +55,7 @@ public class DBManager {
 
     private void initEventTable(SQLiteDatabase db) {
         try {
-            String sql = "CREATE TABLE IF NOT EXISTS Event (" +
+            String sql = "CREATE TABLE IF NOT EXISTS " + EVENT_TABLE_NAME + " (" +
                     "id         INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "name       TEXT    not null, " +
                     "startDate  TEXT    not null, "+
@@ -61,7 +68,7 @@ public class DBManager {
     }
     private void initCategoryTable(SQLiteDatabase db) {
         try {
-            String sql = "CREATE TABLE IF NOT EXISTS Category (" +
+            String sql = "CREATE TABLE IF NOT EXISTS " + CATEGORY_TABLE_NAME + " (" +
                     "id         INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "name       TEXT    not null, " +
                     "eventId    INTEGER not null, " +
@@ -74,7 +81,7 @@ public class DBManager {
     }
     private void initProductTable(SQLiteDatabase db) {
         try {
-            String sql = "CREATE TABLE IF NOT EXISTS Product (" +
+            String sql = "CREATE TABLE IF NOT EXISTS " + PRODUCT_TABLE_NAME + " (" +
                     "id         INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "name       TEXT    not null, " +
                     "categoryId INTEGER not null, " +
@@ -90,7 +97,7 @@ public class DBManager {
     }
     private void initSalesHistoryTable(SQLiteDatabase db) {
         try {
-            String sql = "CREATE TABLE IF NOT EXISTS SalesHistory (" +
+            String sql = "CREATE TABLE IF NOT EXISTS " + SALES_HISTORY_TABLE_NAME +" (" +
                     "id         INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "date       TEXT   not null, " +
                     "eventId    INTEGER not null, " +
@@ -103,7 +110,7 @@ public class DBManager {
     }
     private void initProductSalesTable(SQLiteDatabase db) {
         try {
-            String sql = "CREATE TABLE IF NOT EXISTS ProductSales (" +
+            String sql = "CREATE TABLE IF NOT EXISTS " + PRODUCT_SALES_TABLE_NAME + " (" +
                     "historyId  INTEGER, " +
                     "productId  INTEGER, " +
                     "amount     INTEGER not null, " +
