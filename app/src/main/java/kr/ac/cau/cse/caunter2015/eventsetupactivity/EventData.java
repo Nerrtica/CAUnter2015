@@ -19,4 +19,15 @@ public class EventData {
         this.eventEnds = eDate;
     }
 
+    public void setEventName(String newName) {
+        this.eventName = newName;
+    }
+
+    public void editStart(Timestamp newDate) {
+        this.eventStart = newDate;
+    }
+
+    public void editEnds(Timestamp newDate) {
+        this.eventEnds = newDate;
+    }
 }
