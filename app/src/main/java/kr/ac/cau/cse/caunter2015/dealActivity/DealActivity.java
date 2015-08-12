@@ -1,4 +1,4 @@
-package kr.ac.cau.cse.caunter2015.Deal;
+package kr.ac.cau.cse.caunter2015.dealActivity;
 
 import android.app.Activity;
 import android.os.Bundle;

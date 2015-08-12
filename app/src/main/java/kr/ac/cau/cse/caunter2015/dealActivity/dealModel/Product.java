@@ -1,4 +1,4 @@
-package kr.ac.cau.cse.caunter2015.Deal.dealModel;
+package kr.ac.cau.cse.caunter2015.dealActivity.dealModel;
 
 public class Product {
     private int productId;

@@ -21,7 +21,7 @@
             android:label="@string/title_activity_event" >
         </activity>
         <activity
-            android:name=".Deal.DealActivity"
+            android:name=".dealActivity.DealActivity"
             android:label="@string/title_activity_deal" >
         </activity>
     </application>
