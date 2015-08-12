@@ -1,14 +1,10 @@
 package kr.ac.cau.cse.caunter2015.eventsetupactivity;
 
-import android.app.Activity;
 import android.app.Dialog;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import java.sql.Timestamp;
 
-import kr.ac.cau.cse.caunter2015.R;
+import kr.ac.cau.cse.caunter2015.eventsetupactivity.model.EventData;
 
 public class EventCreationDialog extends Dialog {
 /*
