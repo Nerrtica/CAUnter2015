@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import kr.ac.cau.cse.caunter2015.database.DBManager;
 
 public class MainActivity extends Activity {
 
