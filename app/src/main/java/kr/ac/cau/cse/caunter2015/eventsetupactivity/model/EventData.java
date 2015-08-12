@@ -1,13 +1,13 @@
-package kr.ac.cau.cse.caunter2015.eventsetupactivity;
+package kr.ac.cau.cse.caunter2015.eventsetupactivity.model;
 
-import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.Comparator;
 
 /**
  * Created by Julian on 2015-08-02.
  * by Junyeon Julian Weon, CAUCSE, CAUnter2015 Team.
  */
-public class EventData {
+public class EventData implements Comparator<EventData> {
     private int eventID;
     private String eventName;
     private Timestamp eventStart, eventEnds;
