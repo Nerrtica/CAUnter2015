@@ -1,6 +1,6 @@
-package kr.ac.cau.cse.caunter2015.Deal;
+package kr.ac.cau.cse.caunter2015.Deal.dealModel;
 
-public class DealModel {
+public class Product {
     private int productId;
     private String productName;
     private int categoryId;
@@ -9,7 +9,7 @@ public class DealModel {
     private int stock;
     private int totalPrice;
 
-    public DealModel(int productId, String productName, int categoryId, int price, int startStock, int stock, int totalPrice) {
+    public Product(int productId, String productName, int categoryId, int price, int startStock, int stock, int totalPrice) {
         this.productId = productId;
         this.productName = productName;
         this.categoryId = categoryId;
