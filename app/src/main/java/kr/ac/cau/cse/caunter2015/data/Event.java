@@ -1,13 +1,13 @@
 package kr.ac.cau.cse.caunter2015.data;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 
 public class Event {
     private int id;
     private String name;
-    private GregorianCalendar startDate;
-    private GregorianCalendar endDate;
+    private Timestamp startDate;
+    private Timestamp endDate;
     private ArrayList<Product> productList;
     private ArrayList<Category> categoryList;
     private ArrayList<SalesHistory> salesHistoryList;
@@ -20,11 +20,11 @@ public class Event {
         return name;
     }
 
-    public GregorianCalendar getStartDate() {
+    public Timestamp getStartDate() {
         return startDate;
     }
 
-    public GregorianCalendar getEndDate() {
+    public Timestamp getEndDate() {
         return endDate;
     }
 
