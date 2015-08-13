@@ -7,7 +7,7 @@ import java.util.Comparator;
  * Created by Julian on 2015-08-02.
  * by Junyeon Julian Weon, CAUCSE, CAUnter2015 Team.
  */
-public class EventData implements Comparator<EventData> {
+public class EventData {
     private int eventID;
     private String eventName;
     private Timestamp eventStart, eventEnds;
@@ -19,15 +19,15 @@ public class EventData implements Comparator<EventData> {
         this.eventEnds = eDate;
     }
 
-    public void setEventName(String newName) {
-        this.eventName = newName;
-    }
+    public void setEventName(String newName) { this.eventName = newName; }
 
-    public void editStart(Timestamp newDate) {
-        this.eventStart = newDate;
-    }
+    public void editStart(Timestamp newDate) { this.eventStart = newDate; }
 
-    public void editEnds(Timestamp newDate) {
-        this.eventEnds = newDate;
-    }
+    public void editEnds(Timestamp newDate) { this.eventEnds = newDate; }
+
+    public String getName() { return this.eventName; }
+
+    public Timestamp getStart() { return this.eventStart; }
+
+    public Timestamp getEnds() { return this.eventEnds; }
 }
