@@ -25,6 +25,8 @@ public enum EventComparator implements java.util.Comparator<EventData> {
         }
     };
 
+    public enum sortOption{BY_NAME,BY_START,BY_ENDS};
+
     public static Comparator<EventData> descendingComparator(Comparator<EventData> original) {
         return new Comparator<EventData>() {
             public int compare(EventData o1,EventData o2) {
@@ -33,13 +35,13 @@ public enum EventComparator implements java.util.Comparator<EventData> {
         };
     }
 
-    public EventComparator getComparator(int option) {
+    public EventComparator getComparator(sortOption option) {
         switch(option) {
-            case 1:
+            case BY_NAME:
                 return this.ByNameAsc;
-            case 2:
+            case BY_START:
                 return this.ByStartAsc;
-            case 3:
+            case BY_ENDS:
                 return this.ByEndAsc;
             default:
                 return null;
