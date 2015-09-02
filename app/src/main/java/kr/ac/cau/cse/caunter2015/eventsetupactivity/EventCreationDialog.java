@@ -6,9 +6,9 @@ import java.sql.Timestamp;
 
 import kr.ac.cau.cse.caunter2015.eventsetupactivity.model.EventData;
 
-public class EventCreationDialog extends Dialog {
+public class EventCreationDialog {
 /*
-    @Override
+    @Overrides
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_creation_dialog);
