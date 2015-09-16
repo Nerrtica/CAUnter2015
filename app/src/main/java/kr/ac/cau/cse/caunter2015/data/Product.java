@@ -8,6 +8,15 @@ public class Product {
     private int initialStock;
     private int currentStock;
 
+    public Product(int id, String name, int categoryId, int price, int initialStock, int currentStock) {
+        this.id = id;
+        this.name = name;
+        this.categoryId = categoryId;
+        this.price = price;
+        this.initialStock = initialStock;
+        this.currentStock = currentStock;
+    }
+
     public int getId() {
         return id;
     }

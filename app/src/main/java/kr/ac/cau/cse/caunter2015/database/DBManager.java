@@ -2,60 +2,49 @@ package kr.ac.cau.cse.caunter2015.database;
 
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+
+import kr.ac.cau.cse.caunter2015.data.Category;
+import kr.ac.cau.cse.caunter2015.data.Event;
+import kr.ac.cau.cse.caunter2015.data.Product;
 
 
 public class DBManager {
-    private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "CaunterDB";
+    private static final String DATABASE_FILE_NAME = "CaunterDB.db";
 
-    public static final String EVENT_TABLE_NAME = "Event";
-    public static final String CATEGORY_TABLE_NAME = "Category";
-    public static final String PRODUCT_TABLE_NAME = "Product";
-    public static final String SALES_HISTORY_TABLE_NAME = "SalesHistory";
-    public static final String PRODUCT_SALES_TABLE_NAME = "ProductSales";
+    public static final String EVENT_TYPE = "Event";
+    public static final String CATEGORY_TYPE = "Category";
+    public static final String PRODUCT_TYPE = "Product";
+    public static final String SALES_HISTORY_TYPE = "SalesHistory";
+    private static final String PRODUCT_SALES_TYPE = "ProductSales";
 
 
     private SQLiteDatabase db;
-    private OpenHelper helper;
 
     private Context context;
 
 
-    private class OpenHelper extends SQLiteOpenHelper {
-
-        public OpenHelper (Context context){
-            super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        }
-        @Override
-        public void onCreate(SQLiteDatabase db) {
-
-            Log.i("database", "SQLiteOpenHelper onCreate start.");
-            initEventTable(db);
-            initCategoryTable(db);
-            initProductTable(db);
-            initSalesHistoryTable(db);
-            initProductSalesTable(db);
-            Log.i("database", "SQLiteOpenHelper onCreate end.");
-        }
-
-        @Override
-        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            Log.i("database", "SQLiteOpenHelper onUpgrade.");
-        }
-    }
-
     public DBManager(Context context){
+        db = SQLiteDatabase.openOrCreateDatabase(DATABASE_FILE_NAME, null, null);
         this.context = context;
-        this.helper = new OpenHelper(context);
-        db = helper.getWritableDatabase();
+        initTable();
     }
 
-    private void initEventTable(SQLiteDatabase db) {
+    private void initTable() {
+        initEventTable();
+        initCategoryTable();
+        initProductTable();
+        initSalesHistoryTable();
+        initProductSalesTable();
+    }
+    private void initEventTable() {
         try {
-            String sql = "CREATE TABLE IF NOT EXISTS " + EVENT_TABLE_NAME + " (" +
+            String sql = "CREATE TABLE IF NOT EXISTS " + EVENT_TYPE + " (" +
                     "id         INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "name       TEXT    not null, " +
                     "startDate  TEXT    not null, "+
@@ -66,9 +55,9 @@ public class DBManager {
             e.printStackTrace();
         }
     }
-    private void initCategoryTable(SQLiteDatabase db) {
+    private void initCategoryTable() {
         try {
-            String sql = "CREATE TABLE IF NOT EXISTS " + CATEGORY_TABLE_NAME + " (" +
+            String sql = "CREATE TABLE IF NOT EXISTS " + CATEGORY_TYPE + " (" +
                     "id         INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "name       TEXT    not null, " +
                     "eventId    INTEGER not null, " +
@@ -79,9 +68,9 @@ public class DBManager {
             e.printStackTrace();
         }
     }
-    private void initProductTable(SQLiteDatabase db) {
+    private void initProductTable() {
         try {
-            String sql = "CREATE TABLE IF NOT EXISTS " + PRODUCT_TABLE_NAME + " (" +
+            String sql = "CREATE TABLE IF NOT EXISTS " + PRODUCT_TYPE + " (" +
                     "id         INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "name       TEXT    not null, " +
                     "categoryId INTEGER not null, " +
@@ -95,9 +84,9 @@ public class DBManager {
             e.printStackTrace();
         }
     }
-    private void initSalesHistoryTable(SQLiteDatabase db) {
+    private void initSalesHistoryTable() {
         try {
-            String sql = "CREATE TABLE IF NOT EXISTS " + SALES_HISTORY_TABLE_NAME +" (" +
+            String sql = "CREATE TABLE IF NOT EXISTS " + SALES_HISTORY_TYPE +" (" +
                     "id         INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "date       TEXT   not null, " +
                     "eventId    INTEGER not null, " +
@@ -108,9 +97,9 @@ public class DBManager {
             e.printStackTrace();
         }
     }
-    private void initProductSalesTable(SQLiteDatabase db) {
+    private void initProductSalesTable() {
         try {
-            String sql = "CREATE TABLE IF NOT EXISTS " + PRODUCT_SALES_TABLE_NAME + " (" +
+            String sql = "CREATE TABLE IF NOT EXISTS " + PRODUCT_SALES_TYPE + " (" +
                     "historyId  INTEGER, " +
                     "productId  INTEGER, " +
                     "amount     INTEGER not null, " +
@@ -124,5 +113,37 @@ public class DBManager {
         }
     }
 
-
+    public ArrayList<Event> selectALLEvent() {
+        String sql = "SELECT * FROM " + EVENT_TYPE + ";";
+        Cursor cursor = db.rawQuery(sql, null);
+        ArrayList<Event> returnValue = null;
+        while(cursor.moveToNext()) {
+            returnValue.add(new Event(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3)));
+            break;
+        }
+        cursor.close();
+        return returnValue;
+    }
+    public ArrayList<Category> selectCategory(int eventId) {
+        String sql = "Select * FROM " + CATEGORY_TYPE + "WHERE eventId = " + eventId + ";";
+        Cursor cursor = db.rawQuery(sql, null);
+        ArrayList<Category> returnValue = null;
+        while(cursor.moveToNext()) {
+            returnValue.add(new Category(cursor.getInt(0), cursor.getString(1)));
+        }
+        return returnValue;
+    }
+    public ArrayList<Product> selectProduct(int eventId) {
+        String sql = "SELECT * FROM " + PRODUCT_TYPE + "WHERE eventId = " + eventId + ";";
+        Cursor cursor = db.rawQuery(sql, null);
+        ArrayList<Product> returnValue = null;
+        while(cursor.moveToNext()) {
+            returnValue.add(
+                    new Product(
+                            cursor.getInt(0), cursor.getString(1), cursor.getInt(2), cursor.getInt(3), cursor.getInt(4), cursor.getInt(5)
+                    )
+            );
+        }
+        return returnValue;
+    }
 }

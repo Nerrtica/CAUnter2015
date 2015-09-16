@@ -6,11 +6,15 @@ import java.util.ArrayList;
 public class Event {
     private int id;
     private String name;
-    private Timestamp startDate;
-    private Timestamp endDate;
-    private ArrayList<Product> productList;
-    private ArrayList<Category> categoryList;
-    private ArrayList<SalesHistory> salesHistoryList;
+    private String startDate;
+    private String endDate;
+
+    public Event(int id, String name, String startDate, String endDate) {
+        this.id = id;
+        this.name = name;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
 
     public int getId() {
         return id;
@@ -20,23 +24,12 @@ public class Event {
         return name;
     }
 
-    public Timestamp getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public Timestamp getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public ArrayList<Product> getProductList() {
-        return productList;
-    }
-
-    public ArrayList<Category> getCategoryList() {
-        return categoryList;
-    }
-
-    public ArrayList<SalesHistory> getSalesHistoryList() {
-        return salesHistoryList;
-    }
 }
