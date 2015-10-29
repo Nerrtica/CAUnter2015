@@ -40,4 +40,28 @@ public class Product {
     public int getCurrentStock() {
         return currentStock;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public void setInitialStock(int initialStock) {
+        this.initialStock = initialStock;
+    }
+
+    public void setCurrentStock(int currentStock) {
+        this.currentStock = currentStock;
+    }
 }

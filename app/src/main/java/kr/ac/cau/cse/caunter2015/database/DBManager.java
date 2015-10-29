@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import kr.ac.cau.cse.caunter2015.data.Category;
