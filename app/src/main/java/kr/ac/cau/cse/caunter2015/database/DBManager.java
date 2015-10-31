@@ -4,7 +4,9 @@ package kr.ac.cau.cse.caunter2015.database;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -13,25 +15,32 @@ import kr.ac.cau.cse.caunter2015.data.Event;
 import kr.ac.cau.cse.caunter2015.data.Product;
 
 
-public class DBManager {
-    private static final String DATABASE_FILE_NAME = "CaunterDB.db";
-
+public class DBManager extends SQLiteOpenHelper {
+    public static final int DATABASE_VERSION = 1;
+    private static final String DATABASE_NAME = "CaunterDB";
     public static final String EVENT_TYPE = "Event";
     public static final String CATEGORY_TYPE = "Category";
     public static final String PRODUCT_TYPE = "Product";
     public static final String SALES_HISTORY_TYPE = "SalesHistory";
     private static final String PRODUCT_SALES_TYPE = "ProductSales";
 
-
     private SQLiteDatabase db;
-
     private Context context;
 
-
-    public DBManager(Context context){
-        db = SQLiteDatabase.openOrCreateDatabase(DATABASE_FILE_NAME, null, null);
+    public DBManager(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
+        db = getWritableDatabase();
         initTable();
+    }
+
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
 
     private void initTable() {
@@ -112,6 +121,8 @@ public class DBManager {
         }
     }
 
+
+
     public ArrayList<Event> selectALLEvent() {
         String sql = "SELECT * FROM " + EVENT_TYPE + ";";
         Cursor cursor = db.rawQuery(sql, null);
@@ -145,4 +156,5 @@ public class DBManager {
         }
         return returnValue;
     }
+
 }
