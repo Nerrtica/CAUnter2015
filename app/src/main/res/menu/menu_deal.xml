@@ -3,4 +3,7 @@
     tools:context="kr.ac.cau.cse.caunter2015.dealActivity.DealActivity">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" android:showAsAction="never" />
+    <item android:id="@+id/action_search" android:title="Search"
+        android:icon="@drawable/ic_action_search"
+        android:showAsAction="always"/>
 </menu>
