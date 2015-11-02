@@ -45,6 +45,7 @@ public class EventActivity extends Activity {
     }
 
     private void addEvent(EventData newEvent) {
+
     }
 
     private void deleteEvent(EventData targetEvent) {

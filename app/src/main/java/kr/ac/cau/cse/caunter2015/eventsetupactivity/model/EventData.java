@@ -1,7 +1,6 @@
 package kr.ac.cau.cse.caunter2015.eventsetupactivity.model;
 
 import java.sql.Timestamp;
-import java.util.Comparator;
 
 /**
  * Created by Julian on 2015-08-02.

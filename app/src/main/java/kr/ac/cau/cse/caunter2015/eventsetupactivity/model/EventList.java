@@ -4,19 +4,26 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import kr.ac.cau.cse.caunter2015.eventsetupactivity.model.EventData;
+import kr.ac.cau.cse.caunter2015.database.DBManager;
+import kr.ac.cau.cse.caunter2015.data.*;
 
 /**
  * Created by Julian on 2015-08-13.
  */
 public class EventList {
-    private enum sortOption{BY_NAME,BY_START,BY_ENDS};
+    public enum sortOption{BY_NAME,BY_START,BY_ENDS};
     private ArrayList<EventData> list = new ArrayList<EventData>();
     private sortOption option = sortOption.BY_NAME;
     private boolean asc=true;
 
+    public EventList() {
+        initList();
+    }
+
     private void initList() {
-        //get recent Data from DB
+        DBManager db = new DBManager(null);
+        ArrayList<Event> dbEvent = db.selectALLEvent();
+
     }
 
     private void deleteEvent(EventData o) {
@@ -27,6 +34,18 @@ public class EventList {
     private void addEvent(EventData o) {
         this.list.add(o);
         listSort();
+    }
+
+    public void setAsc() {
+        this.asc=true;
+    }
+
+    public void setDsc() {
+        this.asc=false;
+    }
+
+    public void setOption(sortOption newOption) {
+        this.option = newOption;
     }
 
     private void listSort() {
