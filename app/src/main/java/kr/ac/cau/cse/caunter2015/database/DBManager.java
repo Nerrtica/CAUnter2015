@@ -6,23 +6,31 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import kr.ac.cau.cse.caunter2015.data.Category;
 import kr.ac.cau.cse.caunter2015.data.Event;
 import kr.ac.cau.cse.caunter2015.data.Product;
+import kr.ac.cau.cse.caunter2015.data.SalesHistory;
 
 
 public class DBManager extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "CaunterDB";
-    public static final String EVENT_TYPE = "Event";
-    public static final String CATEGORY_TYPE = "Category";
-    public static final String PRODUCT_TYPE = "Product";
-    public static final String SALES_HISTORY_TYPE = "SalesHistory";
+    private static final String EVENT_TYPE = "Event";
+    private static final String CATEGORY_TYPE = "Category";
+    private static final String PRODUCT_TYPE = "Product";
+    private static final String SALES_HISTORY_TYPE = "SalesHistory";
     private static final String PRODUCT_SALES_TYPE = "ProductSales";
+
+    public static final int NEW_ID = -1;
+
+    private EventTable eventTable;
+    private CategoryTable categoryTable;
+    private ProductTable productTable;
+    private SalesHistoryTable salesHistoryTable;
+    private ProductSalesTable productSalesTable;
 
     private SQLiteDatabase db;
     private Context context;
@@ -31,6 +39,13 @@ public class DBManager extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
         db = getWritableDatabase();
+
+        eventTable = new EventTable();
+        categoryTable = new CategoryTable();
+        productTable = new ProductTable();
+        salesHistoryTable = new SalesHistoryTable();
+        productSalesTable = new ProductSalesTable();
+
         initTable();
     }
 
@@ -44,84 +59,35 @@ public class DBManager extends SQLiteOpenHelper {
     }
 
     private void initTable() {
-        initEventTable();
-        initCategoryTable();
-        initProductTable();
-        initSalesHistoryTable();
-        initProductSalesTable();
-    }
-    private void initEventTable() {
-        try {
-            String sql = "CREATE TABLE IF NOT EXISTS " + EVENT_TYPE + " (" +
-                    "id         INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "name       TEXT    not null, " +
-                    "startDate  TEXT    not null, "+
-                    "endDate    TEXT    not null);";
-            db.execSQL(sql);
-        } catch (Exception e){
-            Log.e("database", "create Event table failed. :" + e);
-            e.printStackTrace();
-        }
-    }
-    private void initCategoryTable() {
-        try {
-            String sql = "CREATE TABLE IF NOT EXISTS " + CATEGORY_TYPE + " (" +
-                    "id         INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "name       TEXT    not null, " +
-                    "eventId    INTEGER not null, " +
-                    "FOREIGN KEY(eventId) REFERENCES Event(id));";
-            db.execSQL(sql);
-        } catch (Exception e){
-            Log.e("database", "create Category table failed. :" + e);
-            e.printStackTrace();
-        }
-    }
-    private void initProductTable() {
-        try {
-            String sql = "CREATE TABLE IF NOT EXISTS " + PRODUCT_TYPE + " (" +
-                    "id         INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "name       TEXT    not null, " +
-                    "categoryId INTEGER not null, " +
-                    "price      INTEGER not null, " +
-                    "startStock INTEGER not null, " +
-                    "stock      INTEGER not null, " +
-                    "FOREIGN KEY(categoryId) REFERENCES Category(id));";
-            db.execSQL(sql);
-        } catch (Exception e){
-            Log.e("database", "create Product table failed. :" + e);
-            e.printStackTrace();
-        }
-    }
-    private void initSalesHistoryTable() {
-        try {
-            String sql = "CREATE TABLE IF NOT EXISTS " + SALES_HISTORY_TYPE +" (" +
-                    "id         INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "date       TEXT   not null, " +
-                    "eventId    INTEGER not null, " +
-                    "FOREIGN KEY(eventId) REFERENCES Event(id));";
-            db.execSQL(sql);
-        } catch (Exception e){
-            Log.e("database", "create SalesHistory table failed. :" + e);
-            e.printStackTrace();
-        }
-    }
-    private void initProductSalesTable() {
-        try {
-            String sql = "CREATE TABLE IF NOT EXISTS " + PRODUCT_SALES_TYPE + " (" +
-                    "historyId  INTEGER, " +
-                    "productId  INTEGER, " +
-                    "amount     INTEGER not null, " +
-                    "PRIMARY KEY(historyId, productId)," +
-                    "FOREIGN KEY(historyId) REFERENCES SalesHistory(id)," +
-                    "FOREIGN KEY(productId) REFERENCES Product(id));";
-            db.execSQL(sql);
-        } catch (Exception e){
-            Log.e("database", "create SalesHistory table failed. :" + e);
-            e.printStackTrace();
-        }
+        db.execSQL(eventTable.createTable());
+        db.execSQL(categoryTable.createTable());
+        db.execSQL(productTable.createTable());
+        db.execSQL(salesHistoryTable.createTable());
+        db.execSQL(productSalesTable.createTable());
     }
 
-
+    public void insert(Event event) throws Exception {
+        if(event.getId() != NEW_ID) {
+            long id = db.insert(eventTable.TABLE_NAME, null, eventTable.insert(event));
+            event.setId((int) id);
+        } else {
+            throw new Exception("Wrong ID");
+        }
+    }
+    public void insert(Category category) throws Exception {
+        if(category.getId() != NEW_ID) {
+            long id = db.insert(categoryTable.TABLE_NAME, null, categoryTable.insert(category));
+            category.setId((int) id);
+        } else {
+            throw new Exception("Wrong ID");
+        }
+    }
+    public void insert(Product product) throws Exception {
+        if(product.getId() != NEW_ID) {
+            long id = db.insert(productTable.TABLE_NAME, null, productTable.insert(product));
+            product.setId((int) id);
+        }
+    }
 
     public ArrayList<Event> selectALLEvent() {
         String sql = "SELECT * FROM " + EVENT_TYPE + ";";
@@ -139,7 +105,7 @@ public class DBManager extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(sql, null);
         ArrayList<Category> returnValue = null;
         while(cursor.moveToNext()) {
-            returnValue.add(new Category(cursor.getInt(0), cursor.getString(1)));
+            returnValue.add(new Category(cursor.getInt(0), cursor.getString(1), cursor.getInt(2)));
         }
         return returnValue;
     }

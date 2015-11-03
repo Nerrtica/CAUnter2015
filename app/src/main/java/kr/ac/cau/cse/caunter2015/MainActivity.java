@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import kr.ac.cau.cse.caunter2015.data.Event;
 import kr.ac.cau.cse.caunter2015.database.DBManager;
 
 public class MainActivity extends Activity {
