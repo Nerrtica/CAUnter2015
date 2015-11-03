@@ -18,15 +18,12 @@
         </activity>
         <activity
             android:name=".eventsetupactivity.EventActivity"
-            android:label="@string/title_activity_event" >
+            android:label="@string/title_activity_event"
+            >
         </activity>
         <activity
             android:name=".dealActivity.DealActivity"
             android:label="@string/title_activity_deal" >
-        </activity>
-        <activity
-            android:name=".eventsetupactivity.EventCreationDialog"
-            android:label="@string/title_activity_event_creation_dialog" >
         </activity>
     </application>
 
