@@ -1,79 +1,67 @@
 package kr.ac.cau.cse.caunter2015;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.database.sqlite.SQLiteDatabase;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ExpandableListView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import kr.ac.cau.cse.caunter2015.register.CustomAdapter;
+import kr.ac.cau.cse.caunter2015.data.Category;
+import kr.ac.cau.cse.caunter2015.data.Product;
 
 /**
  * Created by Nerrtica on 15. 8. 2..
  */
-public class RegisterActivity extends Activity implements View.OnClickListener {
-    SQLiteDatabase productDB = openOrCreateDatabase("FILENAME", SQLiteDatabase.CREATE_IF_NECESSARY, null);
-    private class product {
-        private String name;
-        private String category;
-        private int price;
-        private int initialStock;
-        private int salesVolumn;
-        private int currentStock;
+public class RegisterActivity extends Activity {
 
-        protected void setProduct (String name, String category, int price, int initialStock, int currentStock) {
-            this.name = name;
-            this.category = category;
-            this.price = price;
-            this.initialStock = initialStock;
-            this.currentStock = currentStock;
-            this.salesVolumn = this.initialStock - this.currentStock;
-        }
+    ActionBar abar;
 
-        protected void setName (String name) {
-            this.name = name;
-        }
-
-        protected void setCategory (String category) {
-            this.category = category;
-        }
-
-        protected void setPrice (int price) {
-            this.price = price;
-        }
-
-        protected boolean setInitialStock (int initialStock) {
-            if (initialStock < this.currentStock) {
-                Toast.makeText(getApplicationContext(), "ERROR : 최초 재고량이 현재 재고량보다 적습니다", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-            this.initialStock = initialStock;
-            this.salesVolumn = this.initialStock - this.currentStock;
-            return true;
-        }
-
-        protected boolean setCurrentStock (int currentStock) {
-            if (currentStock > this.initialStock) {
-                Toast.makeText(getApplicationContext(), "ERROR : 현재 재고량이 최초 재고량보다 많습니다", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-            this.currentStock = currentStock;
-            this.salesVolumn = this.initialStock - this.currentStock;
-            return true;
-        }
-
-        protected String getName () { return this.name; }
-        protected String getCategory () { return this.category; }
-        protected int getPrice () { return this.price; }
-        protected int getInitialStock () { return this.initialStock;}
-        protected int getCurrentStock () { return this.currentStock; }
-        protected int getSalesVolumn () { return this.salesVolumn; }
-    }
+    ExpandableListView product_ExpandableListView;
+    CustomAdapter adapter;
+    ArrayList<Category> categories;
+    ArrayList<ArrayList<Product>> products;
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        int event_pk = getIntent().getExtras().getInt("Event");
+
+        abar = getActionBar();
+        abar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP);
+        abar.setDisplayUseLogoEnabled(false);
+//      event_pk값을 이용하여 행사명을 받아와 Title로 지정
+//      또한 해당 값을 이용해 setData 함수 내부에서 데이터를 받아오도록 함
+//      abar.setTitle("");
+        abar.setDisplayShowTitleEnabled(true);
+        abar.setBackgroundDrawable(new ColorDrawable(0xFF0CA3E8));
+
+        product_ExpandableListView = (ExpandableListView) findViewById(R.id.product_expandable_list_view);
+        setData(event_pk);
+        adapter = new CustomAdapter(this, categories, products);
+        product_ExpandableListView.setAdapter(adapter);
+        product_ExpandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+
+                return false;
+            }
+        });
+
+        product_ExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+
+                return false;
+            }
+        });
     }
 
     @Override
@@ -98,18 +86,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.addButton:
-                //ADD
-                break;
-            case R.id.modifyButton:
-                //MODIFY
-                break;
-            case R.id.deleteButton:
-                //DELETE
-                break;
-        }
+    public void setData(int event_pk) {
+        // event_pk값을 이용해 데이터를 받아옴
     }
 }
