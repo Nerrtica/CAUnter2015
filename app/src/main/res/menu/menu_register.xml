@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+    xmlns:tools="http://schemas.android.com/tools" tools:context="kr.ac.cau.cse.caunter2015.dealActivity.RegisterActivity">
     <item android:id="@+id/search"
         android:title="@string/search"
         android:icon="@drawable/search_icon"
