@@ -1,46 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:weightSum="1"
-    android:baselineAligned="false">
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
+    android:padding="0dp">
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="420dp"
-        android:id="@+id/productList"
-        android:layout_weight="0.23"
-        android:layout_margin="0dp" />
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_weight="0"
-        android:layout_marginBottom="0dp"
-        android:layout_marginLeft="0dp"
+    <ExpandableListView
+        android:id="@+id/product_expandable_list_view"
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+        android:layout_centerInParent="true"
         android:layout_margin="0dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginRight="0dp">
-
-        <Button
-            android:layout_width="128dp"
-            android:layout_height="match_parent"
-            android:text="ADD"
-            android:id="@+id/addButton" />
-
-        <Button
-            android:layout_width="128dp"
-            android:layout_height="match_parent"
-            android:text="MODIFY"
-            android:id="@+id/modifyButton" />
-
-        <Button
-            android:layout_width="128dp"
-            android:layout_height="match_parent"
-            android:text="DELETE"
-            android:id="@+id/deleteButton" />
-
-    </LinearLayout>
+        android:clickable="true"
+        android:padding="0dp"></ExpandableListView>
 
 </LinearLayout>
