@@ -5,5 +5,4 @@ package kr.ac.cau.cse.caunter2015.eventsetupactivity;
  */
 public class View {
 
-
 }

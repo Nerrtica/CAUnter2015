@@ -4,19 +4,31 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.content.Intent;
 
 import kr.ac.cau.cse.caunter2015.database.DBManager;
+import kr.ac.cau.cse.caunter2015.eventsetupactivity.EventActivity;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements Runnable {
 
     private DBManager dbManager;
+    private Thread thread;
+    private Intent intent = new Intent(this, EventActivity.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        thread = new Thread(this);
+        thread.run();
+        try {
+            Thread.sleep(1000);
+            thread.join();
+        } catch(InterruptedException e) {
+            //Will this work properly?
+        }
 
-        dbManager = new DBManager(this);
+        startActivity(intent);
     }
 
 
@@ -40,5 +52,10 @@ public class MainActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void run() {
+        dbManager = new DBManager(this);
     }
 }
