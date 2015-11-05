@@ -86,6 +86,8 @@ public class DBManager extends SQLiteOpenHelper {
         if(product.getId() != NEW_ID) {
             long id = db.insert(productTable.TABLE_NAME, null, productTable.insert(product));
             product.setId((int) id);
+        } else {
+            throw new Exception("Wrong ID");
         }
     }
 
