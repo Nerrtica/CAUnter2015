@@ -109,8 +109,8 @@ public class DBManager extends SQLiteOpenHelper {
         }
         return returnValue;
     }
-    public ArrayList<Product> selectProduct(int eventId) {
-        String sql = "SELECT * FROM " + PRODUCT_TYPE + "WHERE eventId = " + eventId + ";";
+    public ArrayList<Product> selectProduct(int categoryId) {
+        String sql = "SELECT * FROM " + PRODUCT_TYPE + "WHERE categoryId = " + categoryId + ";";
         Cursor cursor = db.rawQuery(sql, null);
         ArrayList<Product> returnValue = null;
         while(cursor.moveToNext()) {
