@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.GridView;
 
 import java.util.ArrayList;
 
@@ -31,9 +32,10 @@ public class DealActivity extends Activity implements View.OnClickListener {
 
         productList = dbManager.selectProduct(eventId);
 
-        createButton(productList);
-
-        }
+        GridView gridView = (GridView) findViewById(R.id.gridView);
+        DealAdapter dealAdapter = new DealAdapter(this, R.layout.product_deal_layout, productList);
+        gridView.setAdapter(dealAdapter);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -64,24 +66,5 @@ public class DealActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
     }
 
+ }
 
-    private void createButton(final ArrayList<Product> productList) {
-    //  Make button List
-        /*
-        int size = productList.size();
-        final Button btnList[] = new Button[size];
-
-        for(int i=0;i<size;i++){
-            btnList[i]=new Button(this);
-            btnList[i].setWidth(150);
-            btnList[i].setHeight(150);
-            btnList[i].setText(productList.get(i).getName()+"\n"+productList.get(i).getPrice()+"\n"+productList.get(i).getInitialStock());
-            btnList[i].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                }
-            });
-        }
-        */
-    }
-}

@@ -1,11 +1,13 @@
 package kr.ac.cau.cse.caunter2015;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import kr.ac.cau.cse.caunter2015.database.DBManager;
+import kr.ac.cau.cse.caunter2015.dealActivity.DealActivity;
 
 public class MainActivity extends Activity {
 
@@ -16,7 +18,10 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        dbManager = new DBManager(this);
+        Intent intent = new Intent(this, DealActivity.class);
+        startActivity(intent);
+
+     //   dbManager = new DBManager(this);
     }
 
 
