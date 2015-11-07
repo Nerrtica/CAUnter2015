@@ -9,6 +9,8 @@ public class Event {
     private String startDate;
     private String endDate;
 
+    public Event() {}
+
     public Event(int id, String name, String startDate, String endDate) {
         this.id = id;
         this.name = name;
