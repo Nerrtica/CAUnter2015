@@ -1,15 +1,28 @@
 package kr.ac.cau.cse.caunter2015.database;
 
 
+import android.content.ContentValues;
+
 public class SalesHistoryTable {
-    private static final String SALES_HISTORY_TYPE = "SalesHistory";
+    public static final String TABLE_NAME = "SalesHistory";
+    private static final String ID_COLUMN = "id";
+    private static final String DATE_COLUMN = "date";
+    private static final String EVENT_ID_COLUMN = "eventId";
+
 
     public String createTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS " + SALES_HISTORY_TYPE +" (" +
-                "id         INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "date       TEXT   not null, " +
-                "eventId    INTEGER not null, " +
-                "FOREIGN KEY(eventId) REFERENCES Event(id));";
+        String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME +" (" +
+                ID_COLUMN + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                DATE_COLUMN + " TEXT not null, " +
+                EVENT_ID_COLUMN + " INTEGER not null, " +
+                "FOREIGN KEY(" + EVENT_ID_COLUMN + ") REFERENCES Event(id));";
         return sql;
+    }
+
+    public ContentValues insert(String date, int eventId) {
+        ContentValues values = new ContentValues();
+        values.put(DATE_COLUMN, date);
+        values.put(EVENT_ID_COLUMN, eventId);
+        return values;
     }
 }

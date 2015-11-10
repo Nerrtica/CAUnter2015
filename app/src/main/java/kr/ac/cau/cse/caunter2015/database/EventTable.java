@@ -29,4 +29,9 @@ public class EventTable {
         values.put(END_DATE_COLUMN, event.getEndDate());
         return values;
     }
+
+    public String selectAll() {
+        String sql = "SELECT * FROM " + TABLE_NAME + ";";
+        return sql;
+    }
 }

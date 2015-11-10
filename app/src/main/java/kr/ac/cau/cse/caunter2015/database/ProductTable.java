@@ -37,4 +37,10 @@ public class ProductTable {
         values.put(STOCK_COLUMN, product.getCurrentStock());
         return values;
     }
+
+    public String selectAllByForeignKey(int key) {
+        String sql = "SELECT * FROM " + TABLE_NAME
+                + "WHERE " + CATEGORY_ID_COLUMN + " = " + key + ";";
+        return sql;
+    }
 }
