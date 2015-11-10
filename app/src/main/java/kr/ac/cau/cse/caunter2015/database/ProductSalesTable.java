@@ -15,16 +15,16 @@ public class ProductSalesTable {
                 PRODUCT_ID_COLUMN + " INTEGER, " +
                 AMOUNT_COLUMN + " INTEGER not null, " +
                 "PRIMARY KEY(" + HISTORY_ID_COLUMN + ", " + PRODUCT_ID_COLUMN + ")," +
-                "FOREIGN KEY(" + HISTORY_ID_COLUMN + ") REFERENCES SalesHistory(id)," +
-                "FOREIGN KEY(" + PRODUCT_ID_COLUMN + ") REFERENCES Product(id));";
+                "FOREIGN KEY(" + HISTORY_ID_COLUMN + ") REFERENCES SalesHistory(id) ON DELETE CASCADE," +
+                "FOREIGN KEY(" + PRODUCT_ID_COLUMN + ") REFERENCES Product(id) ON DELETE CASCADE);";
         return sql;
     }
 
-    public ContentValues insert(int historyId, int productId , int acoumnt) {
-        ContentValues values = new ContentValues();
-        values.put(HISTORY_ID_COLUMN, historyId);
-        values.put(PRODUCT_ID_COLUMN, productId);
-        values.put(AMOUNT_COLUMN, acoumnt);
-        return values;
-    }
+//    public ContentValues insert(int historyId, int productId , int acoumnt) {
+//        ContentValues values = new ContentValues();
+//        values.put(HISTORY_ID_COLUMN, historyId);
+//        values.put(PRODUCT_ID_COLUMN, productId);
+//        values.put(AMOUNT_COLUMN, acoumnt);
+//        return values;
+//    }
 }

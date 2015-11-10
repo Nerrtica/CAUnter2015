@@ -24,7 +24,7 @@ public class ProductTable {
                 PRICE_COLUMN + "INTEGER not null, " +
                 START_STOCK_COLUMN + "INTEGER not null, " +
                 STOCK_COLUMN + "INTEGER not null, " +
-                "FOREIGN KEY(" + CATEGORY_ID_COLUMN + ") REFERENCES Category(id));";
+                "FOREIGN KEY(" + CATEGORY_ID_COLUMN + ") REFERENCES Category(id) ON DELETE CASCADE);";
         return sql;
     }
 

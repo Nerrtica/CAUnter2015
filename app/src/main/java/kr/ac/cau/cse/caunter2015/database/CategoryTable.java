@@ -19,7 +19,7 @@ public class CategoryTable {
                 NAME_COLUMN + "TEXT not null, " +
                 EVENT_ID_COLUMN + "INTEGER not null, " +
                 "FOREIGN KEY("+ EVENT_ID_COLUMN +") " +
-                "REFERENCES Event(id));";
+                "REFERENCES Event(id) ON DELETE CASCADE);";
         return sql;
     }
 

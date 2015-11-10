@@ -20,7 +20,6 @@ import kr.ac.cau.cse.caunter2015.data.SalesHistory;
 public class DBManager extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "CaunterDB";
-    private static final String PRODUCT_TYPE = "Product";
 
     public static final int NEW_ID = -1;
 
@@ -46,13 +45,21 @@ public class DBManager extends SQLiteOpenHelper {
 
         initTable();
     }
-    
+
+    @Override
+    public void onConfigure(SQLiteDatabase db) {
+        super.onConfigure(db);
+        db.setForeignKeyConstraintsEnabled(true);
+    }
+
     @Override
     public void onCreate(SQLiteDatabase db) {
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
     }
 
     private void initTable() {
@@ -137,4 +144,25 @@ public class DBManager extends SQLiteOpenHelper {
 //        ArrayList<SalesHistory> returnValue = null;
 //        return returnValue;
 //    }
+    public void delete(Event event) throws Exception {
+        int result = db.delete(EventTable.TABLE_NAME, "id=?", new String[]{String.valueOf(event.getId())});
+        if(result == 0 ) {
+            throw new Exception("Error: Delete from Event table - no such data");
+        }
+    }
+
+    public void delete(Category category) throws Exception {
+        int result = db.delete(CategoryTable.TABLE_NAME, "id=?", new String[]{String.valueOf(category.getId())});
+        if(result == 0) {
+            throw new Exception("Error: Delete from Category table - no such data");
+        }
+    }
+    public void delete(Product product) throws Exception {
+        int result = db.delete(ProductTable.TABLE_NAME, "id=?", new String[]{String.valueOf(product.getId())});
+        if(result == 0) {
+            throw new Exception("Error: Delete from Product table - no such data");
+        }
+    }
+
+    // salesHistory
 }

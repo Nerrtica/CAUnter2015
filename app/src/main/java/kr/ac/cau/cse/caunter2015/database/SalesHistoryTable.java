@@ -15,14 +15,14 @@ public class SalesHistoryTable {
                 ID_COLUMN + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 DATE_COLUMN + " TEXT not null, " +
                 EVENT_ID_COLUMN + " INTEGER not null, " +
-                "FOREIGN KEY(" + EVENT_ID_COLUMN + ") REFERENCES Event(id));";
+                "FOREIGN KEY(" + EVENT_ID_COLUMN + ") REFERENCES Event(id) ON DELETE CASCADE);";
         return sql;
     }
 
-    public ContentValues insert(String date, int eventId) {
-        ContentValues values = new ContentValues();
-        values.put(DATE_COLUMN, date);
-        values.put(EVENT_ID_COLUMN, eventId);
-        return values;
-    }
+//    public ContentValues insert(String date, int eventId) {
+//        ContentValues values = new ContentValues();
+//        values.put(DATE_COLUMN, date);
+//        values.put(EVENT_ID_COLUMN, eventId);
+//        return values;
+//    }
 }
