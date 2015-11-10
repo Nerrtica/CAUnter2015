@@ -13,21 +13,22 @@
         android:layout_weight="1">
 
         <TextView
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Large Text"
-            android:id="@+id/textView"
+            android:id="@+id/productNameText"
             android:autoText="false"
             android:gravity="center"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal" />
 
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Medium Text"
-            android:id="@+id/textView2"
+            android:id="@+id/productPriceText"
             android:gravity="right"
             android:layout_weight="1" />
     </LinearLayout>
@@ -44,7 +45,7 @@
             android:layout_height="match_parent"
             android:inputType="number"
             android:ems="10"
-            android:id="@+id/editText"
+            android:id="@+id/productStockText"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:gravity="center"
@@ -54,7 +55,7 @@
         <ImageView
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:id="@+id/imageView"
+            android:id="@+id/stockIncImg"
             android:src="@android:drawable/arrow_up_float"
             android:layout_weight="1" />
     </LinearLayout>

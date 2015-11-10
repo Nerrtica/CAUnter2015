@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -19,12 +20,10 @@ import kr.ac.cau.cse.caunter2015.data.Product;
  */
 public class DealAdapter extends BaseAdapter {
     private Context context;
-    private int layoutId;
     private ArrayList<Product> productList;
 
-    public DealAdapter(Context context,int layoutId, ArrayList<Product> productList) {
+    public DealAdapter(Context context, ArrayList<Product> productList) {
         this.context = context;
-        this.layoutId = layoutId;
         this.productList = productList;
     }
 
@@ -45,20 +44,31 @@ public class DealAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         if (convertView == null) {
             LayoutInflater inflater = ((Activity)context).getLayoutInflater();
-            convertView = inflater.inflate(R.layout.product_deal_layout, parent, false);
+            convertView = inflater.inflate(R.layout.deal_product_layout, parent, false);
         }
 
-        TextView nameText = (TextView) convertView.findViewById(R.id.textView);
-        TextView priceText = (TextView) convertView.findViewById(R.id.textView2);
-        EditText numText = (EditText) convertView.findViewById(R.id.editText);
+        TextView nameText = (TextView) convertView.findViewById(R.id.productNameText);
+        TextView priceText = (TextView) convertView.findViewById(R.id.productPriceText);
+        final EditText numText = (EditText) convertView.findViewById(R.id.productStockText);
+        ImageView stockImg = (ImageView) convertView.findViewById(R.id.stockIncImg);
 
         nameText.setText(productList.get(position).getName());
         priceText.setText(String.valueOf(productList.get(position).getPrice()));
-        numText.setText(String.valueOf(productList.get(position).getCurrentStock()));
+        numText.setText(String.valueOf(0));
+        stockImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int wantBuy = Integer.parseInt(numText.getText().toString());
+                if (wantBuy >= productList.get(position).getCurrentStock()) ;
+                else {
+                    numText.setText(String.valueOf(wantBuy+1));
+                }
+            }
+        });
 
         return convertView;
     }

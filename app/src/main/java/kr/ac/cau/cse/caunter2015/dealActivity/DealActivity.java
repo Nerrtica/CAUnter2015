@@ -1,40 +1,72 @@
 package kr.ac.cau.cse.caunter2015.dealActivity;
 
+import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.GridView;
+import android.widget.ExpandableListView;
 
 import java.util.ArrayList;
 
 import kr.ac.cau.cse.caunter2015.R;
+import kr.ac.cau.cse.caunter2015.data.Category;
 import kr.ac.cau.cse.caunter2015.data.Product;
 import kr.ac.cau.cse.caunter2015.database.DBManager;
 
 public class DealActivity extends Activity implements View.OnClickListener {
     private int totalPrice = 0;
+    private ActionBar abar;
     private DBManager dbManager;
+    ExpandableListView deal_expandableListView;
+    ArrayList<ArrayList<Product>> productList;
+    ArrayList<Category> categoryList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deal);
 
-        dbManager = new DBManager(this);
-        ArrayList<Product> productList = new ArrayList<>();
+    //    dbManager = new DBManager(this);
+
 
         //get data from event select activity
-        Intent intentEvent = getIntent();
-        int eventId = intentEvent.getIntExtra("eventId",0);
+    //    Intent intentEvent = getIntent();
 
-        productList = dbManager.selectProduct(eventId);
+    //    int eventId = intentEvent.getIntExtra("eventId",0);
+    //    int categoryId = intentEvent.getIntExtra("categoryId",0);
 
-        GridView gridView = (GridView) findViewById(R.id.gridView);
-        DealAdapter dealAdapter = new DealAdapter(this, R.layout.product_deal_layout, productList);
-        gridView.setAdapter(dealAdapter);
+        abar = getActionBar();
+        abar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP);
+        abar.setDisplayUseLogoEnabled(false);
+//      set title on action bar
+//      abar.setTitle("");
+        abar.setDisplayShowTitleEnabled(true);
+        abar.setBackgroundDrawable(new ColorDrawable(0xFF0CA3E8));
+
+        // set data by dbManager
+        // productList = dbManager.selectProduct(categoryId);
+        // categoryList = dbManager.selectCategory(eventId);
+
+        deal_expandableListView = (ExpandableListView) findViewById(R.id.dealExpandableListView);
+        DealExpandableAdapter adapter = new DealExpandableAdapter(this,categoryList,productList);
+        deal_expandableListView.setAdapter(adapter);
+
+        deal_expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                return false;
+            }
+        });
+
+        deal_expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                return false;
+            }
+        });
     }
 
     @Override
