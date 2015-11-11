@@ -30,6 +30,8 @@ public class DealExpandableAdapter extends BaseExpandableListAdapter {
     private ArrayList<List<Integer>> howMany;
     private LayoutInflater inflater;
     private Context context;
+    OnDataChangedListener mOnDataChangedListener;
+
 
     public DealExpandableAdapter(Context context, ArrayList<Category> categories, ArrayList<ArrayList<Product>> products) {
         this.context = context;
@@ -88,7 +90,11 @@ public class DealExpandableAdapter extends BaseExpandableListAdapter {
                 if (amount >= products.get(groupPosition).get(position).getCurrentStock()) ;
                 else {
                     amountText.setText(String.valueOf(amount + 1));
-                    howMany.get(groupPosition).set(position,amount+1);
+                    howMany.get(groupPosition).set(position, amount + 1);
+
+                    if(mOnDataChangedListener != null) {
+                        mOnDataChangedListener.onDataChanged();
+                    }
                 }
             }
         });
@@ -114,6 +120,9 @@ public class DealExpandableAdapter extends BaseExpandableListAdapter {
                             howMany.get(groupPosition).set(position, 0);
                         } else {
                             howMany.get(groupPosition).set(position, Integer.valueOf(editNum.getText().toString()));
+                        }
+                        if(mOnDataChangedListener != null) {
+                            mOnDataChangedListener.onDataChanged();
                         }
                     }
                 });
@@ -163,6 +172,24 @@ public class DealExpandableAdapter extends BaseExpandableListAdapter {
     @Override
     public boolean hasStableIds() {
         return false;
+    }
+
+    public int getTotalPrice() {
+        int totalprice = 0;
+        for (int i=0;i<products.size();i++) {
+            for(int j=0;j<products.get(i).size();j++){
+                totalprice += products.get(i).get(j).getPrice() * howMany.get(i).get(j);
+            }
+        }
+        return totalprice;
+    }
+
+    public interface OnDataChangedListener {
+        public void onDataChanged();
+    }
+
+    public void setOnDataChangedListener(OnDataChangedListener onDataChangedListener){
+        mOnDataChangedListener = onDataChangedListener;
     }
 
     public class ChildHolder {

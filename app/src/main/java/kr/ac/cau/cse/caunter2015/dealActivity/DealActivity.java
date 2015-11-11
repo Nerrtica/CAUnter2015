@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -21,6 +22,7 @@ public class DealActivity extends Activity implements View.OnClickListener {
     private ActionBar abar;
     private DBManager dbManager;
     ExpandableListView deal_expandableListView;
+    DealExpandableAdapter adapter;
     ArrayList<ArrayList<Product>> productList;
     ArrayList<Category> categoryList;
 
@@ -51,8 +53,16 @@ public class DealActivity extends Activity implements View.OnClickListener {
         // categoryList = dbManager.selectCategory(eventId);
 
         deal_expandableListView = (ExpandableListView) findViewById(R.id.dealExpandableListView);
-        DealExpandableAdapter adapter = new DealExpandableAdapter(this,categoryList,productList);
+        adapter = new DealExpandableAdapter(this,categoryList,productList);
         deal_expandableListView.setAdapter(adapter);
+
+        adapter.setOnDataChangedListener(new DealExpandableAdapter.OnDataChangedListener() {
+            @Override
+            public void onDataChanged() {
+                TextView totalView = (TextView)findViewById(R.id.totalPriceText);
+                totalView.setText(String.valueOf(adapter.getTotalPrice()));
+            }
+        });
 
         deal_expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
