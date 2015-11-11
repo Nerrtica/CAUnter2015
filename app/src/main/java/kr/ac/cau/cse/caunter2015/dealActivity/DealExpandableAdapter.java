@@ -1,14 +1,21 @@
 package kr.ac.cau.cse.caunter2015.dealActivity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import kr.ac.cau.cse.caunter2015.R;
 import kr.ac.cau.cse.caunter2015.data.Category;
@@ -20,6 +27,7 @@ import kr.ac.cau.cse.caunter2015.data.Product;
 public class DealExpandableAdapter extends BaseExpandableListAdapter {
     private ArrayList<Category> categories;
     private ArrayList<ArrayList<Product>> products;
+    private ArrayList<List<Integer>> howMany;
     private LayoutInflater inflater;
     private Context context;
 
@@ -27,7 +35,11 @@ public class DealExpandableAdapter extends BaseExpandableListAdapter {
         this.context = context;
         this.categories = categories;
         this.products = products;
+        howMany = new ArrayList<>();
+        howMany.add(Arrays.asList(0,0));
+        howMany.add(Arrays.asList(0,0));
         inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
     }
 
     @Override
@@ -51,16 +63,73 @@ public class DealExpandableAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        GridView gridView;
+    public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         DealAdapter adapter;
+        ChildHolder holder;
+
         if (convertView == null) {
+            holder = new ChildHolder();
             convertView = inflater.inflate(R.layout.deal_grid_layout, null);
+            holder.gridView = (GridView)convertView.findViewById(R.id.productGrid);
+            convertView.setTag(holder);
+        }
+        else{
+            holder = (ChildHolder)convertView.getTag();
         }
 
-        gridView = (GridView) convertView.findViewById(R.id.productGrid);
-        adapter = new DealAdapter(context, products.get(groupPosition));
-        gridView.setAdapter(adapter);
+        adapter = new DealAdapter(context, products.get(groupPosition),howMany.get(groupPosition));
+        holder.gridView.setAdapter(adapter);
+
+        holder.gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView amountText = (TextView) view.findViewById(R.id.AmountText);
+                int amount = Integer.parseInt(String.valueOf(amountText.getText()));
+                if (amount >= products.get(groupPosition).get(position).getCurrentStock()) ;
+                else {
+                    amountText.setText(String.valueOf(amount + 1));
+                    howMany.get(groupPosition).set(position,amount+1);
+                }
+            }
+        });
+
+        holder.gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, final View view, final int position, long id) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("input amount");
+                final EditText editNum = new EditText(context);
+                editNum.setInputType(InputType.TYPE_CLASS_NUMBER);
+                builder.setView(editNum);
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        int storage = Integer.parseInt(String.valueOf(products.get(groupPosition).get(position).getCurrentStock()));
+
+                        if (Integer.parseInt(editNum.getText().toString()) >= storage) {
+                            howMany.get(groupPosition).set(position, storage);
+                        } else if (Integer.parseInt(editNum.getText().toString()) < 0) {
+                            howMany.get(groupPosition).set(position, 0);
+                        } else {
+                            howMany.get(groupPosition).set(position, Integer.valueOf(editNum.getText().toString()));
+                        }
+                    }
+                });
+
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+
+                AlertDialog alert = builder.create();
+                alert.show();
+                return true;
+            }
+        });
+
 
         return convertView;
     }
@@ -78,7 +147,7 @@ public class DealExpandableAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return products.size();
+        return 1;
     }
 
     @Override
@@ -93,7 +162,12 @@ public class DealExpandableAdapter extends BaseExpandableListAdapter {
 
     @Override
     public boolean hasStableIds() {
-        return true;
+        return false;
     }
+
+    public class ChildHolder {
+        public GridView gridView;
+    }
+
 }
 

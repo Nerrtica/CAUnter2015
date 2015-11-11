@@ -5,12 +5,14 @@
     android:weightSum="2"
     android:background="@android:color/holo_blue_dark">
 
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:weightSum="2"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        >
 
         <TextView
             android:layout_width="wrap_content"
@@ -38,25 +40,17 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:weightSum="2">
+        android:weightSum="2"
+        android:descendantFocusability="beforeDescendants">
 
-        <EditText
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:inputType="number"
-            android:ems="10"
-            android:id="@+id/productStockText"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:background="@android:color/white"
-            android:editable="false" />
-
-        <ImageView
-            android:layout_width="0dp"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:id="@+id/stockIncImg"
-            android:src="@android:drawable/arrow_up_float"
-            android:layout_weight="1" />
+            android:textColor="#FFFFFF"
+            android:id="@+id/AmountText"
+            android:layout_weight="1"
+            android:gravity="center_vertical|center_horizontal"
+            style="@android:style/TextAppearance.Large" />
+
     </LinearLayout>
 </LinearLayout>

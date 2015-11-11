@@ -7,5 +7,5 @@
         android:layout_height="wrap_content"
         android:id="@+id/productGrid"
         android:nestedScrollingEnabled="false"
-        android:numColumns="auto_fit" />
+        android:numColumns="auto_fit"/>
 </LinearLayout>

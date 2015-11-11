@@ -10,6 +10,46 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/dealExpandableListView"
-        android:layout_alignParentBottom="false"
-        android:layout_alignParentEnd="false" />
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/linearLayout" />
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent" android:layout_height="wrap_content"
+        android:id="@+id/linearLayout"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="총합"
+            android:id="@+id/totalText"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="0dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="0"
+            android:id="@+id/totalPriceText"
+            android:layout_marginLeft="82dp"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/calcButton" />
+
+        <ImageButton
+            android:layout_width="@android:dimen/app_icon_size"
+            android:layout_height="@android:dimen/app_icon_size"
+            android:id="@+id/calcButton"
+            android:src="@android:drawable/ic_menu_save"
+            android:baselineAlignBottom="false"
+            android:layout_alignTop="@+id/totalPriceText"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+
 </RelativeLayout>
