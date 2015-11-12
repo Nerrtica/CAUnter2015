@@ -1,17 +1,30 @@
 package kr.ac.cau.cse.caunter2015.database;
 
 
+import android.content.ContentValues;
+
 public class ProductSalesTable {
-    private static final String PRODUCT_SALES_TYPE = "ProductSales";
+    public static final String TABLE_NAME = "ProductSales";
+    private static final String HISTORY_ID_COLUMN = "historyId";
+    private static final String PRODUCT_ID_COLUMN = "productId";
+    private static final String AMOUNT_COLUMN = "amount";
 
     public String createTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS " + PRODUCT_SALES_TYPE + " (" +
-                "historyId  INTEGER, " +
-                "productId  INTEGER, " +
-                "amount     INTEGER not null, " +
-                "PRIMARY KEY(historyId, productId)," +
-                "FOREIGN KEY(historyId) REFERENCES SalesHistory(id)," +
-                "FOREIGN KEY(productId) REFERENCES Product(id));";
+        String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
+                HISTORY_ID_COLUMN + " INTEGER, " +
+                PRODUCT_ID_COLUMN + " INTEGER, " +
+                AMOUNT_COLUMN + " INTEGER not null, " +
+                "PRIMARY KEY(" + HISTORY_ID_COLUMN + ", " + PRODUCT_ID_COLUMN + ")," +
+                "FOREIGN KEY(" + HISTORY_ID_COLUMN + ") REFERENCES SalesHistory(id) ON DELETE CASCADE," +
+                "FOREIGN KEY(" + PRODUCT_ID_COLUMN + ") REFERENCES Product(id) ON DELETE CASCADE);";
         return sql;
     }
+
+//    public ContentValues insert(int historyId, int productId , int acoumnt) {
+//        ContentValues values = new ContentValues();
+//        values.put(HISTORY_ID_COLUMN, historyId);
+//        values.put(PRODUCT_ID_COLUMN, productId);
+//        values.put(AMOUNT_COLUMN, acoumnt);
+//        return values;
+//    }
 }

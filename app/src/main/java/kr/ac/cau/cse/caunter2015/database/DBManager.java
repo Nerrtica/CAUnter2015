@@ -5,9 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import kr.ac.cau.cse.caunter2015.data.Category;
 import kr.ac.cau.cse.caunter2015.data.Event;
@@ -18,11 +20,6 @@ import kr.ac.cau.cse.caunter2015.data.SalesHistory;
 public class DBManager extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "CaunterDB";
-    private static final String EVENT_TYPE = "Event";
-    private static final String CATEGORY_TYPE = "Category";
-    private static final String PRODUCT_TYPE = "Product";
-    private static final String SALES_HISTORY_TYPE = "SalesHistory";
-    private static final String PRODUCT_SALES_TYPE = "ProductSales";
 
     public static final int NEW_ID = -1;
 
@@ -49,13 +46,20 @@ public class DBManager extends SQLiteOpenHelper {
         initTable();
     }
 
+    @Override
+    public void onConfigure(SQLiteDatabase db) {
+        super.onConfigure(db);
+        db.setForeignKeyConstraintsEnabled(true);
+    }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
     }
 
     private void initTable() {
@@ -68,32 +72,46 @@ public class DBManager extends SQLiteOpenHelper {
 
     public void insert(Event event) throws Exception {
         if(event.getId() != NEW_ID) {
-            long id = db.insert(eventTable.TABLE_NAME, null, eventTable.insert(event));
+            long id = db.insert(EventTable.TABLE_NAME, null, eventTable.insert(event));
             event.setId((int) id);
         } else {
-            throw new Exception("Wrong ID");
+            throw new Exception("Error: Insert into Event table - Wrong ID");
         }
     }
     public void insert(Category category) throws Exception {
         if(category.getId() != NEW_ID) {
-            long id = db.insert(categoryTable.TABLE_NAME, null, categoryTable.insert(category));
+            long id = db.insert(CategoryTable.TABLE_NAME, null, categoryTable.insert(category));
             category.setId((int) id);
         } else {
-            throw new Exception("Wrong ID");
+            throw new Exception("Error: Insert into Category table - Wrong ID");
         }
     }
     public void insert(Product product) throws Exception {
         if(product.getId() != NEW_ID) {
-            long id = db.insert(productTable.TABLE_NAME, null, productTable.insert(product));
+            long id = db.insert(ProductTable.TABLE_NAME, null, productTable.insert(product));
             product.setId((int) id);
         } else {
-            throw new Exception("Wrong ID");
+            throw new Exception("Error: Insert into Product table - Wrong ID");
         }
     }
 
-    public ArrayList<Event> selectALLEvent() {
-        String sql = "SELECT * FROM " + EVENT_TYPE + ";";
-        Cursor cursor = db.rawQuery(sql, null);
+//    public void insert(SalesHistory salesHistory) throws Exception {
+//        if(salesHistory.getId() != NEW_ID) {
+//            long id = db.insert(SalesHistoryTable.TABLE_NAME, null, salesHistoryTable.insert(salesHistory.getDate(), salesHistory.getEventId()));
+//            HashMap<Product, Integer> map = salesHistory.getSalesList();
+//            Iterator<Product> keys = map.keySet().iterator();
+//            while( keys.hasNext() ){
+//                Product key = keys.next();
+//                db.insert(ProductSalesTable.TABLE_NAME, null, productSalesTable.insert(
+//                        , key.getId(), map.get(key)));
+//            }
+//        } else {
+//            throw new Exception("Error: Insert into SalesHistory table - Wrong ID");
+//        }
+//    }
+
+    public ArrayList<Event> selectEvent() {
+        Cursor cursor = db.rawQuery(eventTable.selectAll(), null);
         ArrayList<Event> returnValue = null;
         while(cursor.moveToNext()) {
             returnValue.add(new Event(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3)));
@@ -102,18 +120,16 @@ public class DBManager extends SQLiteOpenHelper {
         cursor.close();
         return returnValue;
     }
-    public ArrayList<Category> selectCategory(int eventId) {
-        String sql = "Select * FROM " + CATEGORY_TYPE + "WHERE eventId = " + eventId + ";";
-        Cursor cursor = db.rawQuery(sql, null);
+    public ArrayList<Category> selectCategory(int foreignId) {
+        Cursor cursor = db.rawQuery(categoryTable.selectAllByForeignKey(foreignId), null);
         ArrayList<Category> returnValue = null;
         while(cursor.moveToNext()) {
             returnValue.add(new Category(cursor.getInt(0), cursor.getString(1), cursor.getInt(2)));
         }
         return returnValue;
     }
-    public ArrayList<Product> selectProduct(int categoryId) {
-        String sql = "SELECT * FROM " + PRODUCT_TYPE + "WHERE categoryId = " + categoryId + ";";
-        Cursor cursor = db.rawQuery(sql, null);
+    public ArrayList<Product> selectProduct(int foreignId) {
+        Cursor cursor = db.rawQuery(productTable.selectAllByForeignKey(foreignId), null);
         ArrayList<Product> returnValue = null;
         while(cursor.moveToNext()) {
             returnValue.add(
@@ -124,5 +140,29 @@ public class DBManager extends SQLiteOpenHelper {
         }
         return returnValue;
     }
+//    public ArrayList<SalesHistory> selectSalesHistory(int foreignId) {
+//        ArrayList<SalesHistory> returnValue = null;
+//        return returnValue;
+//    }
+    public void delete(Event event) throws Exception {
+        int result = db.delete(EventTable.TABLE_NAME, "id=?", new String[]{String.valueOf(event.getId())});
+        if(result == 0 ) {
+            throw new Exception("Error: Delete from Event table - no such data");
+        }
+    }
 
+    public void delete(Category category) throws Exception {
+        int result = db.delete(CategoryTable.TABLE_NAME, "id=?", new String[]{String.valueOf(category.getId())});
+        if(result == 0) {
+            throw new Exception("Error: Delete from Category table - no such data");
+        }
+    }
+    public void delete(Product product) throws Exception {
+        int result = db.delete(ProductTable.TABLE_NAME, "id=?", new String[]{String.valueOf(product.getId())});
+        if(result == 0) {
+            throw new Exception("Error: Delete from Product table - no such data");
+        }
+    }
+
+    // salesHistory
 }

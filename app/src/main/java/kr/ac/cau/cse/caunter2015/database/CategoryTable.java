@@ -16,10 +16,10 @@ public class CategoryTable {
         String sql = "CREATE TABLE IF NOT EXISTS " +
                 TABLE_NAME + " (" +
                 ID_COLUMN + "INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                NAME_COLUMN + "TEXT    not null, " +
+                NAME_COLUMN + "TEXT not null, " +
                 EVENT_ID_COLUMN + "INTEGER not null, " +
                 "FOREIGN KEY("+ EVENT_ID_COLUMN +") " +
-                "REFERENCES Event(id));";
+                "REFERENCES Event(id) ON DELETE CASCADE);";
         return sql;
     }
 
@@ -28,5 +28,11 @@ public class CategoryTable {
         values.put(NAME_COLUMN, category.getName());
         values.put(EVENT_ID_COLUMN, category.getEventId());
         return values;
+    }
+
+    public String selectAllByForeignKey(int key) {
+        String sql = "SELECT * FROM " + TABLE_NAME
+                + "WHERE " + EVENT_ID_COLUMN + " = " + key + ";";
+        return sql;
     }
 }

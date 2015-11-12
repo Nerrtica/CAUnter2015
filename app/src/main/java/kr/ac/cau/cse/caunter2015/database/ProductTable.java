@@ -24,7 +24,7 @@ public class ProductTable {
                 PRICE_COLUMN + "INTEGER not null, " +
                 START_STOCK_COLUMN + "INTEGER not null, " +
                 STOCK_COLUMN + "INTEGER not null, " +
-                "FOREIGN KEY(" + CATEGORY_ID_COLUMN + ") REFERENCES Category(id));";
+                "FOREIGN KEY(" + CATEGORY_ID_COLUMN + ") REFERENCES Category(id) ON DELETE CASCADE);";
         return sql;
     }
 
@@ -36,5 +36,11 @@ public class ProductTable {
         values.put(START_STOCK_COLUMN, product.getInitialStock());
         values.put(STOCK_COLUMN, product.getCurrentStock());
         return values;
+    }
+
+    public String selectAllByForeignKey(int key) {
+        String sql = "SELECT * FROM " + TABLE_NAME
+                + "WHERE " + CATEGORY_ID_COLUMN + " = " + key + ";";
+        return sql;
     }
 }
