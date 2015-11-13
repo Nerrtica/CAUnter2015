@@ -1,5 +1,7 @@
 package kr.ac.cau.cse.caunter2015.eventsetupactivity.model;
 
+import android.app.ListActivity;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -23,7 +25,7 @@ public class EventList {
     private void initList() {
         DBManager db = new DBManager(null);
         ArrayList<Event> dbEvent = db.selectALLEvent();
-
+        listSort();
     }
 
     private void deleteEvent(EventData o) {
@@ -36,16 +38,20 @@ public class EventList {
         listSort();
     }
 
-    public void setAsc() {
-        this.asc=true;
+    public ArrayList<EventData> getEventList() {
+        return this.list;
     }
 
-    public void setDsc() {
-        this.asc=false;
+    public void setAsc() {
+        if(this.asc) this.asc=false;
+        else this.asc=true;
+        listSort();
     }
 
     public void setOption(sortOption newOption) {
         this.option = newOption;
+        this.asc = true;
+        listSort();
     }
 
     private void listSort() {

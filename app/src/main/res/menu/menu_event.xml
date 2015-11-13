@@ -1,6 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="kr.ac.cau.cse.caunter2015.eventsetupactivity.EventActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" android:showAsAction="never" />
+    xmlns:tools="http://schemas.android.com/tools" tools:context="kr.ac.cau.cse.caunter2015.dealActivity.RegisterActivity">
+    <item android:id="@+id/search"
+        android:title="@string/search"
+        android:icon="@drawable/search_icon"
+        android:showAsAction="always"
+        android:orderInCategory="102"
+        />
 </menu>

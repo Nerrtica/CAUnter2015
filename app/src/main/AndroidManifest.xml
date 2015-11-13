@@ -10,7 +10,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen">
+            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,12 +19,17 @@
         </activity>
         <activity
             android:name=".eventsetupactivity.EventActivity"
-            android:label="@string/title_activity_event"
-            >
+            android:label="@string/title_activity_event" >
         </activity>
         <activity
             android:name=".dealActivity.DealActivity"
             android:label="@string/title_activity_deal" >
+        </activity>
+        <activity android:name=".eventsetupactivity.DateTabActivity" android:theme="@android:style/Theme.NoTitleBar">
+        </activity>
+        <activity android:name=".eventsetupactivity.SellTabActivity" android:theme="@android:style/Theme.NoTitleBar">
+        </activity>
+        <activity android:name=".eventsetupactivity.GraphTabActivity" android:theme="@android:style/Theme.NoTitleBar">
         </activity>
     </application>
 

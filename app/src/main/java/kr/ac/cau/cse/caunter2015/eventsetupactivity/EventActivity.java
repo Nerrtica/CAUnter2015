@@ -1,21 +1,38 @@
 package kr.ac.cau.cse.caunter2015.eventsetupactivity;
 
-import android.app.Activity;
+import android.app.ActivityGroup;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import java.sql.Timestamp;
+import android.widget.TabHost;
 
 import kr.ac.cau.cse.caunter2015.R;
-import kr.ac.cau.cse.caunter2015.eventsetupactivity.model.EventData;
-import kr.ac.cau.cse.caunter2015.eventsetupactivity.model.EventList;
 
-public class EventActivity extends Activity {
+public class EventActivity extends ActivityGroup {
+    private TabHost tabhost;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
+        tabhost = (TabHost)findViewById(R.id.tabHost);
+        tabhost.setup(this.getLocalActivityManager());
+
+        TabHost.TabSpec tbdspec = tabhost.newTabSpec("tab_date");
+        TabHost.TabSpec tbsspec = tabhost.newTabSpec("tab_sell");
+        TabHost.TabSpec tbgspec = tabhost.newTabSpec("tab_graph");
+
+        tbdspec.setIndicator("",getDrawable(R.drawable.tabselection_date));
+        tbdspec.setContent(new Intent(this, DateTabActivity.class));
+        tbsspec.setIndicator("", getDrawable(R.drawable.tabselection_sell));
+        tbsspec.setContent(new Intent(this, SellTabActivity.class));
+        tbgspec.setIndicator("", getDrawable(R.drawable.tabselection_stat));
+        tbgspec.setContent(new Intent(this, GraphTabActivity.class));
+
+        tabhost.addTab(tbdspec);
+        tabhost.addTab(tbsspec);
+        tabhost.addTab(tbgspec);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -36,25 +53,5 @@ public class EventActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private EventList eventList = new EventList();
-
-    private void initEventList() {
-        //From database, the data of recently created events should be drawn out.
-    }
-
-    private void addEvent(EventData newEvent) {
-
-    }
-
-    private void deleteEvent(EventData targetEvent) {
-
-    }
-
-    private void editEvent(EventData targetEvent,String name,Timestamp sDate, Timestamp eDate) {
-        targetEvent.setEventName(name);
-        targetEvent.editStart(sDate);
-        targetEvent.editEnds(eDate);
     }
 }

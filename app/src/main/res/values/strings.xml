@@ -6,4 +6,8 @@
     <string name="title_activity_event">EventActivity</string>
     <string name="title_activity_deal">DealActivity</string>
     <string name="title_activity_event_creation_dialog">EventCreationDialog</string>
+    <string name="title_activity_event_tab">EventTabActivity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_graph_tab">GraphTabActivity</string>
+    <string name="search">Search</string>
 </resources>

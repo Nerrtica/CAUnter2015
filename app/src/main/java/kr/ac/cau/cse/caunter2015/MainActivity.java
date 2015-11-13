@@ -9,25 +9,22 @@ import android.content.Intent;
 import kr.ac.cau.cse.caunter2015.database.DBManager;
 import kr.ac.cau.cse.caunter2015.eventsetupactivity.EventActivity;
 
-public class MainActivity extends Activity implements Runnable {
+public class MainActivity extends Activity {
 
     private DBManager dbManager;
     private Thread thread;
-    private Intent intent = new Intent(this, EventActivity.class);
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        thread = new Thread(this);
-        thread.run();
         try {
-            Thread.sleep(1000);
-            thread.join();
+            Thread.sleep(2000);
         } catch(InterruptedException e) {
-            //Will this work properly?
+            //this shan't happen
         }
-
+        intent = new Intent(this, EventActivity.class);
         startActivity(intent);
     }
 
@@ -52,10 +49,5 @@ public class MainActivity extends Activity implements Runnable {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void run() {
-        dbManager = new DBManager(this);
     }
 }

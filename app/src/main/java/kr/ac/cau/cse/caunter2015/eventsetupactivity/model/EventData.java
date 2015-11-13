@@ -9,9 +9,10 @@ import java.sql.Timestamp;
 public class EventData {
     private int eventID;
     private String eventName;
+    private String eventPK;
     private Timestamp eventStart, eventEnds;
 
-    public EventData(int ID, String name, Timestamp sDate, Timestamp eDate) {
+    public EventData(int ID, String name, String eventPK, Timestamp sDate, Timestamp eDate) {
         this.eventID = ID;
         this.eventName = name;
         this.eventStart = sDate;
@@ -25,6 +26,8 @@ public class EventData {
     public void editEnds(Timestamp newDate) { this.eventEnds = newDate; }
 
     public String getName() { return this.eventName; }
+
+    public int getEventID() { return this.eventID; }
 
     public Timestamp getStart() { return this.eventStart; }
 

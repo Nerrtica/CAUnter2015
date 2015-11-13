@@ -1,12 +1,8 @@
 <resources>
-    <style name="CustomWindowTitleBarBgr">
-        <item name="android:background">#3399cc</item>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
     </style>
 
-    <style name="TitleBarTheme" parent="android:Theme">
-        <item name="android:windowTitleSize">50dp</item>
-        <item name="android:windowTitleBackgroundStyle">@style/CustomWindowTitleBarBgr</item>
-        <item name="android:textColor">#eeeeee</item>
-        <item name="android:textSize">22dp</item>
-    </style>
 </resources>
