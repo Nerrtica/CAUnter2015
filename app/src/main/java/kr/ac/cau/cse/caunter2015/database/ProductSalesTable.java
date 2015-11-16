@@ -3,6 +3,8 @@ package kr.ac.cau.cse.caunter2015.database;
 
 import android.content.ContentValues;
 
+import kr.ac.cau.cse.caunter2015.data.ProductSales;
+
 public class ProductSalesTable {
     public static final String TABLE_NAME = "ProductSales";
     private static final String HISTORY_ID_COLUMN = "historyId";
@@ -20,11 +22,11 @@ public class ProductSalesTable {
         return sql;
     }
 
-//    public ContentValues insert(int historyId, int productId , int acoumnt) {
-//        ContentValues values = new ContentValues();
-//        values.put(HISTORY_ID_COLUMN, historyId);
-//        values.put(PRODUCT_ID_COLUMN, productId);
-//        values.put(AMOUNT_COLUMN, acoumnt);
-//        return values;
-//    }
+    public ContentValues insert(ProductSales productSales) {
+        ContentValues values = new ContentValues();
+        values.put(HISTORY_ID_COLUMN, productSales.getHistoryId());
+        values.put(PRODUCT_ID_COLUMN, productSales.getProduct().getId());
+        values.put(AMOUNT_COLUMN, productSales.getAmount());
+        return values;
+    }
 }

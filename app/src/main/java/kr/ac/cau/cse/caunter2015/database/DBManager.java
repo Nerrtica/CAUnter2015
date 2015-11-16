@@ -14,6 +14,7 @@ import java.util.Iterator;
 import kr.ac.cau.cse.caunter2015.data.Category;
 import kr.ac.cau.cse.caunter2015.data.Event;
 import kr.ac.cau.cse.caunter2015.data.Product;
+import kr.ac.cau.cse.caunter2015.data.ProductSales;
 import kr.ac.cau.cse.caunter2015.data.SalesHistory;
 
 
@@ -95,20 +96,19 @@ public class DBManager extends SQLiteOpenHelper {
         }
     }
 
-//    public void insert(SalesHistory salesHistory) throws Exception {
-//        if(salesHistory.getId() != NEW_ID) {
-//            long id = db.insert(SalesHistoryTable.TABLE_NAME, null, salesHistoryTable.insert(salesHistory.getDate(), salesHistory.getEventId()));
-//            HashMap<Product, Integer> map = salesHistory.getSalesList();
-//            Iterator<Product> keys = map.keySet().iterator();
-//            while( keys.hasNext() ){
-//                Product key = keys.next();
-//                db.insert(ProductSalesTable.TABLE_NAME, null, productSalesTable.insert(
-//                        , key.getId(), map.get(key)));
-//            }
-//        } else {
-//            throw new Exception("Error: Insert into SalesHistory table - Wrong ID");
-//        }
-//    }
+    public void insert(SalesHistory salesHistory) throws Exception {
+        if(salesHistory.getId() != NEW_ID) {
+            long id = db.insert(SalesHistoryTable.TABLE_NAME, null, salesHistoryTable.insert(salesHistory));
+            salesHistory.setId((int) id);
+            ArrayList<ProductSales> salesList = salesHistory.getSalesList();
+            for (int i = 0; i < salesList.size(); i++) {
+                salesList.get(i).setHistoryId((int) id);
+                db.insert(ProductSalesTable.TABLE_NAME, null, productSalesTable.insert(salesList.get(i)));
+            }
+        } else {
+            throw new Exception("Error: Insert into SalesHistory table - Wrong ID");
+        }
+    }
 
     public ArrayList<Event> selectEvent() {
         Cursor cursor = db.rawQuery(eventTable.selectAll(), null);
