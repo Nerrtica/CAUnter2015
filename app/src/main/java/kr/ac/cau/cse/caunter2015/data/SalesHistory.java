@@ -1,19 +1,18 @@
 package kr.ac.cau.cse.caunter2015.data;
 
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SalesHistory {
     private int id;
-    private HashMap<Product, Integer> salesList;
+    private ArrayList<ProductSales> salesList;
     private String date;
     private int eventId;
 
     public SalesHistory() {}
 
-    public SalesHistory(int id, HashMap<Product, Integer> salesList, String date, int eventId) {
+    public SalesHistory(int id, ArrayList<ProductSales> salesList, String date, int eventId) {
         this.id = id;
         this.salesList = salesList;
         this.date = date;
@@ -23,7 +22,7 @@ public class SalesHistory {
         return id;
     }
 
-    public HashMap<Product, Integer> getSalesList() {
+    public ArrayList<ProductSales> getSalesList() {
         return salesList;
     }
 
@@ -37,5 +36,17 @@ public class SalesHistory {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setSalesList(ArrayList<ProductSales> salesList) {
+        this.salesList = salesList;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public void setEventId(int eventId) {
+        this.eventId = eventId;
     }
 }
