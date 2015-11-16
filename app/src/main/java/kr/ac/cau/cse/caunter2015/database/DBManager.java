@@ -140,10 +140,36 @@ public class DBManager extends SQLiteOpenHelper {
         }
         return returnValue;
     }
-//    public ArrayList<SalesHistory> selectSalesHistory(int foreignId) {
-//        ArrayList<SalesHistory> returnValue = null;
-//        return returnValue;
-//    }
+    public ArrayList<SalesHistory> selectSalesHistory(int foreignId) {
+        Cursor cursor = db.rawQuery(salesHistoryTable.selectAllByForeignKey(foreignId), null);
+        ArrayList<SalesHistory> returnValue = new ArrayList<>();
+        while(cursor.moveToNext()) {
+            SalesHistory salesHistory = new SalesHistory();
+            salesHistory.setId(cursor.getInt(0));
+            salesHistory.setDate(cursor.getString(1));
+            salesHistory.setEventId(cursor.getInt(2));
+            salesHistory.setSalesList(
+                selectProductSales(salesHistory.getId())
+            );
+
+            returnValue.add(salesHistory);
+        }
+
+        return returnValue;
+    }
+    private ArrayList<ProductSales> selectProductSales(int foreignId) {
+        Cursor cursor = db.rawQuery(productSalesTable.selectAllByForeignKey(foreignId), null);
+        ArrayList<ProductSales> returnValue = new ArrayList<>();
+        while(cursor.moveToNext()) {
+            returnValue.add(
+                    new ProductSales(
+                            cursor.getInt(0), cursor.getInt(1), cursor.getInt(2)
+                    )
+            );
+        }
+
+        return returnValue;
+    }
     public void delete(Event event) throws Exception {
         int result = db.delete(EventTable.TABLE_NAME, "id=?", new String[]{String.valueOf(event.getId())});
         if(result == 0 ) {

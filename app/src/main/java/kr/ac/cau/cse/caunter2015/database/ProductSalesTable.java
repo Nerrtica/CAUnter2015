@@ -25,8 +25,14 @@ public class ProductSalesTable {
     public ContentValues insert(ProductSales productSales) {
         ContentValues values = new ContentValues();
         values.put(HISTORY_ID_COLUMN, productSales.getHistoryId());
-        values.put(PRODUCT_ID_COLUMN, productSales.getProduct().getId());
+        values.put(PRODUCT_ID_COLUMN, productSales.getProductId());
         values.put(AMOUNT_COLUMN, productSales.getAmount());
         return values;
+    }
+
+    public String selectAllByForeignKey(int key) {
+        String sql = "SELECT * FROM " + TABLE_NAME
+                + "WHERE " + HISTORY_ID_COLUMN + " = " + key + ";";
+        return sql;
     }
 }

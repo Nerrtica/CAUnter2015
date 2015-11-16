@@ -27,4 +27,10 @@ public class SalesHistoryTable {
         values.put(EVENT_ID_COLUMN, salesHistory.getEventId());
         return values;
     }
+
+    public String selectAllByForeignKey(int key) {
+        String sql = "SELECT * FROM " + TABLE_NAME
+                + "WHERE " + EVENT_ID_COLUMN + " = " + key + ";";
+        return sql;
+    }
 }
