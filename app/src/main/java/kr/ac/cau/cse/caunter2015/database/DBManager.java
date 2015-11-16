@@ -189,6 +189,17 @@ public class DBManager extends SQLiteOpenHelper {
             throw new Exception("Error: Delete from Product table - no such data");
         }
     }
+    public void delete(SalesHistory salesHistory) throws Exception {
+        int result = db.delete(SalesHistoryTable.TABLE_NAME, "id=?", new String[]{String.valueOf(salesHistory.getId())});
+        if(result == 0) {
+            throw new Exception("Error: Delete from Product table - no such data");
+        }
+    }
 
-    // salesHistory
+    public void delete(ProductSales productSales) throws Exception {
+        int result = db.delete(ProductSalesTable.TABLE_NAME, "historyId=? AND productId=?", new String[]{String.valueOf(productSales.getHistoryId()), String.valueOf(productSales.getProductId())});
+        if(result == 0) {
+            throw new Exception("Error: Delete from Product table - no such data");
+        }
+    }
 }
