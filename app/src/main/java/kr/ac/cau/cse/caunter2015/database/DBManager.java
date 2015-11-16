@@ -112,7 +112,7 @@ public class DBManager extends SQLiteOpenHelper {
 
     public ArrayList<Event> selectEvent() {
         Cursor cursor = db.rawQuery(eventTable.selectAll(), null);
-        ArrayList<Event> returnValue = null;
+        ArrayList<Event> returnValue = new ArrayList<>();
         while(cursor.moveToNext()) {
             returnValue.add(new Event(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3)));
             break;
@@ -122,7 +122,7 @@ public class DBManager extends SQLiteOpenHelper {
     }
     public ArrayList<Category> selectCategory(int foreignId) {
         Cursor cursor = db.rawQuery(categoryTable.selectAllByForeignKey(foreignId), null);
-        ArrayList<Category> returnValue = null;
+        ArrayList<Category> returnValue = new ArrayList<>();
         while(cursor.moveToNext()) {
             returnValue.add(new Category(cursor.getInt(0), cursor.getString(1), cursor.getInt(2)));
         }
@@ -130,7 +130,7 @@ public class DBManager extends SQLiteOpenHelper {
     }
     public ArrayList<Product> selectProduct(int foreignId) {
         Cursor cursor = db.rawQuery(productTable.selectAllByForeignKey(foreignId), null);
-        ArrayList<Product> returnValue = null;
+        ArrayList<Product> returnValue = new ArrayList<>();
         while(cursor.moveToNext()) {
             returnValue.add(
                     new Product(
