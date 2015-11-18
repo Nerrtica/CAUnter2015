@@ -48,6 +48,19 @@ public class DealActivity extends Activity implements View.OnClickListener {
         abar.setDisplayShowTitleEnabled(true);
         abar.setBackgroundDrawable(new ColorDrawable(0xFF0CA3E8));
 
+
+//      button for start SettleActivity
+
+//        ImageButton calcButton = (ImageButton)findViewById(R.id.calcButton);
+//        final Intent intent = new Intent(this, SettleActivity.class);
+
+//        calcButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(intent);
+//            }
+//        });
+
         // set data by dbManager
         // productList = dbManager.selectProduct(categoryId);
         // categoryList = dbManager.selectCategory(eventId);
