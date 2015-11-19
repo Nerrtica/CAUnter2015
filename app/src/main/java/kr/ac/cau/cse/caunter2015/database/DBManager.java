@@ -14,6 +14,7 @@ import java.util.Iterator;
 import kr.ac.cau.cse.caunter2015.data.Category;
 import kr.ac.cau.cse.caunter2015.data.Event;
 import kr.ac.cau.cse.caunter2015.data.Product;
+import kr.ac.cau.cse.caunter2015.data.ProductSales;
 import kr.ac.cau.cse.caunter2015.data.SalesHistory;
 
 
@@ -95,24 +96,23 @@ public class DBManager extends SQLiteOpenHelper {
         }
     }
 
-//    public void insert(SalesHistory salesHistory) throws Exception {
-//        if(salesHistory.getId() != NEW_ID) {
-//            long id = db.insert(SalesHistoryTable.TABLE_NAME, null, salesHistoryTable.insert(salesHistory.getDate(), salesHistory.getEventId()));
-//            HashMap<Product, Integer> map = salesHistory.getSalesList();
-//            Iterator<Product> keys = map.keySet().iterator();
-//            while( keys.hasNext() ){
-//                Product key = keys.next();
-//                db.insert(ProductSalesTable.TABLE_NAME, null, productSalesTable.insert(
-//                        , key.getId(), map.get(key)));
-//            }
-//        } else {
-//            throw new Exception("Error: Insert into SalesHistory table - Wrong ID");
-//        }
-//    }
+    public void insert(SalesHistory salesHistory) throws Exception {
+        if(salesHistory.getId() != NEW_ID) {
+            long id = db.insert(SalesHistoryTable.TABLE_NAME, null, salesHistoryTable.insert(salesHistory));
+            salesHistory.setId((int) id);
+            ArrayList<ProductSales> salesList = salesHistory.getSalesList();
+            for (int i = 0; i < salesList.size(); i++) {
+                salesList.get(i).setHistoryId((int) id);
+                db.insert(ProductSalesTable.TABLE_NAME, null, productSalesTable.insert(salesList.get(i)));
+            }
+        } else {
+            throw new Exception("Error: Insert into SalesHistory table - Wrong ID");
+        }
+    }
 
     public ArrayList<Event> selectEvent() {
         Cursor cursor = db.rawQuery(eventTable.selectAll(), null);
-        ArrayList<Event> returnValue = null;
+        ArrayList<Event> returnValue = new ArrayList<>();
         while(cursor.moveToNext()) {
             returnValue.add(new Event(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3)));
             break;
@@ -122,7 +122,7 @@ public class DBManager extends SQLiteOpenHelper {
     }
     public ArrayList<Category> selectCategory(int foreignId) {
         Cursor cursor = db.rawQuery(categoryTable.selectAllByForeignKey(foreignId), null);
-        ArrayList<Category> returnValue = null;
+        ArrayList<Category> returnValue = new ArrayList<>();
         while(cursor.moveToNext()) {
             returnValue.add(new Category(cursor.getInt(0), cursor.getString(1), cursor.getInt(2)));
         }
@@ -130,7 +130,7 @@ public class DBManager extends SQLiteOpenHelper {
     }
     public ArrayList<Product> selectProduct(int foreignId) {
         Cursor cursor = db.rawQuery(productTable.selectAllByForeignKey(foreignId), null);
-        ArrayList<Product> returnValue = null;
+        ArrayList<Product> returnValue = new ArrayList<>();
         while(cursor.moveToNext()) {
             returnValue.add(
                     new Product(
@@ -140,10 +140,36 @@ public class DBManager extends SQLiteOpenHelper {
         }
         return returnValue;
     }
-//    public ArrayList<SalesHistory> selectSalesHistory(int foreignId) {
-//        ArrayList<SalesHistory> returnValue = null;
-//        return returnValue;
-//    }
+    public ArrayList<SalesHistory> selectSalesHistory(int foreignId) {
+        Cursor cursor = db.rawQuery(salesHistoryTable.selectAllByForeignKey(foreignId), null);
+        ArrayList<SalesHistory> returnValue = new ArrayList<>();
+        while(cursor.moveToNext()) {
+            SalesHistory salesHistory = new SalesHistory();
+            salesHistory.setId(cursor.getInt(0));
+            salesHistory.setDate(cursor.getString(1));
+            salesHistory.setEventId(cursor.getInt(2));
+            salesHistory.setSalesList(
+                selectProductSales(salesHistory.getId())
+            );
+
+            returnValue.add(salesHistory);
+        }
+
+        return returnValue;
+    }
+    private ArrayList<ProductSales> selectProductSales(int foreignId) {
+        Cursor cursor = db.rawQuery(productSalesTable.selectAllByForeignKey(foreignId), null);
+        ArrayList<ProductSales> returnValue = new ArrayList<>();
+        while(cursor.moveToNext()) {
+            returnValue.add(
+                    new ProductSales(
+                            cursor.getInt(0), cursor.getInt(1), cursor.getInt(2)
+                    )
+            );
+        }
+
+        return returnValue;
+    }
     public void delete(Event event) throws Exception {
         int result = db.delete(EventTable.TABLE_NAME, "id=?", new String[]{String.valueOf(event.getId())});
         if(result == 0 ) {
@@ -163,6 +189,17 @@ public class DBManager extends SQLiteOpenHelper {
             throw new Exception("Error: Delete from Product table - no such data");
         }
     }
+    public void delete(SalesHistory salesHistory) throws Exception {
+        int result = db.delete(SalesHistoryTable.TABLE_NAME, "id=?", new String[]{String.valueOf(salesHistory.getId())});
+        if(result == 0) {
+            throw new Exception("Error: Delete from Product table - no such data");
+        }
+    }
 
-    // salesHistory
+    public void delete(ProductSales productSales) throws Exception {
+        int result = db.delete(ProductSalesTable.TABLE_NAME, "historyId=? AND productId=?", new String[]{String.valueOf(productSales.getHistoryId()), String.valueOf(productSales.getProductId())});
+        if(result == 0) {
+            throw new Exception("Error: Delete from Product table - no such data");
+        }
+    }
 }
