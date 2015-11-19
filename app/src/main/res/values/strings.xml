@@ -7,4 +7,5 @@
     <string name="title_activity_deal">DealActivity</string>
     <string name="title_activity_event_creation_dialog">EventCreationDialog</string>
     <string name="search">Search</string>
+    <string name="title_activity_settle">SettleActivity</string>
 </resources>

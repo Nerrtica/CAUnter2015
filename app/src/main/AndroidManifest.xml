@@ -28,6 +28,10 @@
             android:name=".eventsetupactivity.EventCreationDialog"
             android:label="@string/title_activity_event_creation_dialog" >
         </activity>
+        <activity
+            android:name=".dealActivity.SettleActivity"
+            android:label="@string/title_activity_settle" >
+        </activity>
     </application>
 
 </manifest>
